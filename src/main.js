@@ -1,9 +1,9 @@
-import {createMenu} from './view/menu/Menu';
-import {createSort} from './view/sort/Sort';
-import {createFilms} from './view/films/Films';
-import {createFilmCart} from './view/film-cart/FilmCart';
-import {createProfile} from './view/profile/Profile';
-import {createFilmsCount} from './view/films-count/FilmsCount';
+import {createMenu} from './view/menu/menu';
+import {createSort} from './view/sort/sort';
+import {createFilms} from './view/films/films';
+import {createFilmCart} from './view/film-cart/film-card';
+import {createProfile} from './view/profile/profile';
+import {createFilmsCount} from './view/films-count/films-count';
 
 const MAIN_FILMS_LIST_CARTS_COUNT = 5;
 const FILMS_LIST_CARTS_COUNT = 2;
