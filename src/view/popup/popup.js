@@ -1,5 +1,5 @@
 import {createFilmDetailsRow} from './film-details-row.js';
-import {createCommentRow} from "./comment-row";
+import {createCommentTemplate} from './comment';
 
 export const createPopup = (dataFilm, dataComments) => (
   `
@@ -36,7 +36,7 @@ export const createPopup = (dataFilm, dataComments) => (
                 ${createFilmDetailsRow('Release Date', '30 March 1945')}
                 ${createFilmDetailsRow('Runtime', dataFilm.duration)}
                 ${createFilmDetailsRow('Country', dataFilm.country)}
-                ${createFilmDetailsRow('Genres', dataFilm.categories.map(category => `<span class="film-details__genre">${category}</span>`).join(''))}
+                ${createFilmDetailsRow('Genres', dataFilm.categories.map((category) => `<span class="film-details__genre">${category}</span>`).join(''))}
               </table>
 
               <p class="film-details__film-description">
@@ -57,7 +57,7 @@ export const createPopup = (dataFilm, dataComments) => (
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${dataFilm.comments}</span></h3>
 
         <ul class="film-details__comments-list">
-            ${dataComments.data.map(comment => createCommentRow(comment))}
+            ${dataComments.map((comment) => createCommentTemplate(comment))}
         </ul>
 
         <div class="film-details__new-comment">

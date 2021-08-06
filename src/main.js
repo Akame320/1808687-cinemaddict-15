@@ -1,11 +1,13 @@
 import {createMenu} from './view/menu/menu';
 import {createSort} from './view/sort/sort';
 import {createFilms} from './view/films/films';
-import {createFilmCart} from './view/film-card/film-card';
+import {createFilmCard} from './view/film-card/film-card';
 import {createProfile} from './view/profile/profile';
 import {createFilmsCount} from './view/films-count/films-count';
-import {createComment, createFilm, mock, setIdForFilm} from "./mocks/films-data";
-import {createPopup} from "./view/popup/popup";
+import {createComment, createFilm} from './mocks/films-data';
+// eslint-disable-next-line no-unused-vars
+import {createPopup} from './view/popup/popup';
+import {createShowMoreButtonTemplate} from './view/show-more-button/show-more-button';
 
 const headerContainer = document.querySelector('header');
 const bodyContainer = document.querySelector('.main');
@@ -27,12 +29,15 @@ const mainFilmsList = bodyContainer.querySelector('#mainFilmList');
 const topRateFilmsList = bodyContainer.querySelector('#topRatesList');
 const mostCommentsFilmsList = bodyContainer.querySelector('#mostCommentsList');
 
-const films = new Array(13).fill(null).map(() => createFilm());
-const comments = new Array(5).fill(null).map(() => createComment());
+const films = new Array(13).fill(null).map(createFilm);
+// eslint-disable-next-line no-unused-vars
+const comments = new Array(5).fill(null).map(createComment);
 
 for (let i = 0; i < 5; i++){
-  render(mainFilmsList, createFilmCart(films[i]));
+  render(mainFilmsList, createFilmCard(films[i]));
 }
+
+render(mainFilmsList, createShowMoreButtonTemplate(), 'afterend');
 
 const getTopRatedFilms = () => {
   const allFilms = films.slice(0, films.length - 1);
@@ -49,7 +54,7 @@ const getTopRatedFilms = () => {
   }
 
   return allFilms.splice(0, 2);
-}
+};
 
 const getMostCommentsFilms = () => {
   const allFilms = films.slice(0, films.length - 1);
@@ -66,34 +71,31 @@ const getMostCommentsFilms = () => {
   }
 
   return allFilms.splice(0, 2);
-}
+};
 
 const topRateFilms = getTopRatedFilms();
-
 const topMostComments = getMostCommentsFilms();
 
 for (const film of topRateFilms){
-  render(topRateFilmsList, createFilmCart(film))
+  render(topRateFilmsList, createFilmCard(film));
 }
 
 for (const film of topMostComments){
-  render(mostCommentsFilmsList, createFilmCart(film))
+  render(mostCommentsFilmsList, createFilmCard(film));
 }
 
 const showMoreFilmsCart = () => {
-  if(showsFilmsCartInMainList === films.length){
-
-  }else{
+  if(showsFilmsCartInMainList !== films.length){
     let i = showsFilmsCartInMainList;
 
     while(showsFilmsCartInMainList < showsFilmsCartInMainList + 5 && films[i]){
-      render(mainFilmsList, createFilmCart(films[i]));
+      render(mainFilmsList, createFilmCard(films[i]));
       i++;
     }
 
     showsFilmsCartInMainList += 5;
   }
-}
+};
 
 document.querySelector('.films-list__show-more').addEventListener('click', showMoreFilmsCart);
 
