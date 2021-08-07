@@ -10,7 +10,7 @@ const createFilmDetailsRow = (title, text) => (
 );
 
 
-export const createPopup = (dataFilm, dataComments) => (
+export const createPopup = (film, comments) => (
   `
   <section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -21,35 +21,35 @@ export const createPopup = (dataFilm, dataComments) => (
 
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="${dataFilm.poster}" alt="">
+              <img class="film-details__poster-img" src="${film.poster}" alt="">
 
-              <p class="film-details__age">${dataFilm.ageСategory}+</p>
+              <p class="film-details__age">${film.ageСategory}+</p>
             </div>
 
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
-                  <h3 class="film-details__title">${dataFilm.filmName}</h3>
-                  <p class="film-details__title-original">Original: ${dataFilm.filmName}</p>
+                  <h3 class="film-details__title">${film.title}</h3>
+                  <p class="film-details__title-original">Original: ${film.title}</p>
                 </div>
 
                 <div class="film-details__rating">
-                  <p class="film-details__total-rating">${dataFilm.rate}</p>
+                  <p class="film-details__total-rating">${film.rate}</p>
                 </div>
               </div>
 
               <table class="film-details__table">
-                ${createFilmDetailsRow('Director', dataFilm.directors)}
-                ${createFilmDetailsRow('Writers', dataFilm.writers)}
-                ${createFilmDetailsRow('Actors', dataFilm.actors)}
+                ${createFilmDetailsRow('Director', film.director)}
+                ${createFilmDetailsRow('Writers', film.writers)}
+                ${createFilmDetailsRow('Actors', film.actors)}
                 ${createFilmDetailsRow('Release Date', '30 March 1945')}
-                ${createFilmDetailsRow('Runtime', dataFilm.duration)}
-                ${createFilmDetailsRow('Country', dataFilm.country)}
-                ${createFilmDetailsRow('Genres', dataFilm.categories.map((category) => `<span class="film-details__genre">${category}</span>`).join(''))}
+                ${createFilmDetailsRow('Runtime', film.duration)}
+                ${createFilmDetailsRow('Country', film.country)}
+                ${createFilmDetailsRow('Genres', film.genres.map((category) => `<span class="film-details__genre">${category}</span>`).join(''))}
               </table>
 
               <p class="film-details__film-description">
-                ${dataFilm.description}
+                ${film.description}
               </p>
             </div>
           </div>
@@ -63,10 +63,10 @@ export const createPopup = (dataFilm, dataComments) => (
 
         <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${dataFilm.comments}</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments}</span></h3>
 
         <ul class="film-details__comments-list">
-            ${dataComments.map((comment) => createCommentTemplate(comment))}
+            ${comments.map((comment) => createCommentTemplate(comment))}
         </ul>
 
         <div class="film-details__new-comment">
