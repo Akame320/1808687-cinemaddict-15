@@ -4,7 +4,7 @@ import {createFilms} from './view/films/films';
 import {createFilmCard} from './view/film-card/film-card';
 import {createProfile} from './view/profile/profile';
 import {createFilmsCount} from './view/films-count/films-count';
-import {createComment, createFilm, createRandomId} from './mocks/films-data';
+import {createComment, createFilm} from './mocks/films-data';
 import {createPopup} from './view/popup/popup';
 import {createShowMoreButtonTemplate} from './view/show-more-button/show-more-button';
 
@@ -94,15 +94,6 @@ const showMoreFilmsCart = () => {
     showsFilmsCartInMainList += 5;
   }
 };
-
-const Player = function (game, rate){
-  this.game = game;
-  this.rate = rate;
-}
-
-const anton = new Player('dota2', '7000');
-
-console.log(anton)
 
 document.querySelector('.films-list__show-more').addEventListener('click', showMoreFilmsCart);
 

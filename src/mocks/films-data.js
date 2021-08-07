@@ -20,9 +20,7 @@ const getRandomDuration = () => `${getRandomInt(1, 2)}h ${getRandomInt(0, 59)}m`
 
 const createRandomId = () => `${getRandomInt(0, 999999)}-${getRandomInt(0, 999999)}-${getRandomInt(0, 999999)}`;
 
-const getRandomDescription = () => {
-  return getRandomElemsFromArray(filmsDescriptions).join('');
-}
+const getRandomDescription = () => getRandomElemsFromArray(filmsDescriptions).join('');
 
 const createFilm = () => {
   const film = {
