@@ -4,8 +4,7 @@ import {createFilms} from './view/films/films';
 import {createFilmCard} from './view/film-card/film-card';
 import {createProfile} from './view/profile/profile';
 import {createFilmsCount} from './view/films-count/films-count';
-import {createComment, createFilm} from './mocks/films-data';
-// eslint-disable-next-line no-unused-vars
+import {createComment, createFilm, createRandomId} from './mocks/films-data';
 import {createPopup} from './view/popup/popup';
 import {createShowMoreButtonTemplate} from './view/show-more-button/show-more-button';
 
@@ -30,7 +29,6 @@ const topRateFilmsList = bodyContainer.querySelector('#topRatesList');
 const mostCommentsFilmsList = bodyContainer.querySelector('#mostCommentsList');
 
 const films = new Array(13).fill(null).map(createFilm);
-// eslint-disable-next-line no-unused-vars
 const comments = new Array(5).fill(null).map(createComment);
 
 for (let i = 0; i < 5; i++){
@@ -97,9 +95,18 @@ const showMoreFilmsCart = () => {
   }
 };
 
+const Player = function (game, rate){
+  this.game = game;
+  this.rate = rate;
+}
+
+const anton = new Player('dota2', '7000');
+
+console.log(anton)
+
 document.querySelector('.films-list__show-more').addEventListener('click', showMoreFilmsCart);
 
-// render(footerContainer, createPopup(films[0], comments[0]));
+render(footerContainer, createPopup(films[0], comments[0]));
 
 render(footerContainer, createFilmsCount);
 

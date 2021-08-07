@@ -18,6 +18,12 @@ const getRandomElemsFromArray = (array) => array.filter(() => getRandomInt(0, 1)
 
 const getRandomDuration = () => `${getRandomInt(1, 2)}h ${getRandomInt(0, 59)}m`;
 
+const createRandomId = () => `${getRandomInt(0, 999999)}-${getRandomInt(0, 999999)}-${getRandomInt(0, 999999)}`;
+
+const getRandomDescription = () => {
+  return getRandomElemsFromArray(filmsDescriptions).join('');
+}
+
 const createFilm = () => {
   const film = {
     poster: getRandomElemFromArray(filmsPoster),
@@ -26,7 +32,7 @@ const createFilm = () => {
     release: getRandomInt(1900, 2021),
     duration: getRandomDuration(),
     categories: getRandomElemsFromArray(filmsCategories),
-    description: getRandomElemsFromArray(filmsDescriptions),
+    description: getRandomDescription(),
     comments: getRandomInt(0, 5),
     directors: getRandomElemFromArray(filmsDirectors),
     writers: getRandomElemsFromArray(filmsWriters),
@@ -38,7 +44,7 @@ const createFilm = () => {
   return film;
 };
 
-const getCommentName = () => ({name: 'John Doe'});
+const getCommentName = () => 'John Doe';
 
 const getRandomComment = () => {
   const randomComment = {
@@ -54,4 +60,4 @@ const getRandomComment = () => {
 
 const createComment = () => new Array(4).fill(null).map(getRandomComment);
 
-export {createFilm, createComment};
+export {createFilm, createComment, createRandomId};

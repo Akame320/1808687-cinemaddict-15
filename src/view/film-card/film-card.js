@@ -3,7 +3,7 @@ export const createFilmCard = (data) => {
   const {description} = data;
 
   const truncateDescription = () => {
-    const outDescription = description.join('');
+    const outDescription = description;
     return outDescription >= 140 ? outDescription : `${outDescription.substr(0, 140)} &hellip;`;
   };
 

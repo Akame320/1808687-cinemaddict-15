@@ -1,4 +1,3 @@
-import {createButtonDelete} from './comment-button-delete';
 export const createCommentTemplate = (comment) => (
   `
     <li class="film-details__comment">
@@ -10,7 +9,7 @@ export const createCommentTemplate = (comment) => (
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${comment.name}</span>
           <span class="film-details__comment-day">${comment.timeUp}</span>
-          ${createButtonDelete()}
+          <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>
     </li>
