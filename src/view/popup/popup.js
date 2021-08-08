@@ -1,4 +1,6 @@
-import {createCommentTemplate} from './comment';
+import PopupComment from './comment';
+import {createElement} from "../../utils/utils";
+import {closePopup} from "../../presenter/popup/popup";
 
 const createFilmDetailsRow = (title, text) => (
   `<tr class="film-details__row">
@@ -10,9 +12,8 @@ const createFilmDetailsRow = (title, text) => (
 );
 
 
-export const createPopup = (film, comments) => (
-  `
-  <section class="film-details">
+const createPopupTemplate = (film, comments) => (
+  `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
         <div class="film-details__top-container">
           <div class="film-details__close">
@@ -66,7 +67,7 @@ export const createPopup = (film, comments) => (
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments}</span></h3>
 
         <ul class="film-details__comments-list">
-            ${comments.map((comment) => createCommentTemplate(comment))}
+            ${comments.map((comment) => new PopupComment(comment).getTemplate())}
         </ul>
 
         <div class="film-details__new-comment">
@@ -100,7 +101,33 @@ export const createPopup = (film, comments) => (
         </div>
       </section>
     </div>
-  </form>
-</section>
-  `
+   </form>
+  </section>`
 );
+
+export default class Popup {
+  constructor(film, comments) {
+    this._element = null;
+    this._film = film;
+    this._comments = comments;
+
+    this.getElement().querySelector('.film-details__close').addEventListener('click', closePopup)
+  }
+
+  getTemplate() {
+    return createPopupTemplate(this._film, this._comments);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

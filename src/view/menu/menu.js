@@ -1,4 +1,6 @@
-export const createMenu = () => (
+import {createElement} from "../../utils/utils";
+
+const createMenu = () => (
   `<nav class="main-navigation">
     <div class="main-navigation__items">
       <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
@@ -9,3 +11,19 @@ export const createMenu = () => (
     <a href="#stats" class="main-navigation__additional">Stats</a>
   </nav>`
 );
+
+export default class Menu{
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMenu();
+  }
+
+  getElement() {
+    if (!this._element){
+      return createElement(this.getTemplate());
+    }
+  }
+}

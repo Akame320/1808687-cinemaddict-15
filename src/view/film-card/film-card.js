@@ -1,3 +1,6 @@
+import {createElement} from "../../utils/utils";
+import {openPopup} from "../../presenter/film-card/film-card";
+
 const MAX_CHARS_DESCRIPTION = 140;
 const MAX_CHARS_FOR_TRUNCATE = 139;
 
@@ -6,7 +9,7 @@ const truncateDescription = (description) => {
   return outDescription >= MAX_CHARS_FOR_TRUNCATE ? outDescription : `${outDescription.substr(0, MAX_CHARS_DESCRIPTION - 1)} &hellip;`;
 };
 
-export const createFilmCard = (film) => (
+const createFilmCardTemplate = (film) => (
   `<article class="film-card">
     <h3 class="film-card__title">${film.title}</h3>
     <p class="film-card__rating">${film.rate}</p>
@@ -25,3 +28,27 @@ export const createFilmCard = (film) => (
     </div>
   </article>`
 );
+
+export default class FilmCard {
+  constructor(film) {
+    this._element = null;
+    this._film = film;
+  }
+
+  getTemplate() {
+    return createFilmCardTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+      this._element.addEventListener('click', (evt) => openPopup(this._film, evt));
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

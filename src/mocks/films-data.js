@@ -24,6 +24,7 @@ const getRandomDescription = () => getRandomElemsFromArray(FILM_DESCRIPTIONS).jo
 
 const createFilm = () => {
   const film = {
+    id: 0,
     poster: getRandomElemFromArray(FILM_POSTERS),
     title: getRandomElemFromArray(FILM_NAMES),
     rate: getRandomFloat(0, 10, 1),
@@ -44,18 +45,29 @@ const createFilm = () => {
 
 const getCommentName = () => 'John Doe';
 
-const getRandomComment = () => {
-  const randomComment = {
-    name: getCommentName(),
-    avatar: getRandomElemFromArray(COMMENT_AVATARS),
-    timeUp: '2019/12/31 23:59',
-    comment: getRandomElemFromArray(COMMENT_TEXTS),
+const getArrayComment = () => {
+  const arrayComments = Array(getRandomInt(0, 5)).fill(null).map(() => (
+    {
+      name: getCommentName(),
+      avatar: getRandomElemFromArray(COMMENT_AVATARS),
+      timeUp: '2019/12/31 23:59',
+      comment: getRandomElemFromArray(COMMENT_TEXTS),
+    }
+  ))
+
+  return arrayComments;
+}
+
+const getRandomFilmComments = () => {
+  const filmComments = {
+    id: 0,
+    comments: getArrayComment()
   };
 
-  return randomComment;
+  return filmComments;
 };
 
 
-const createComment = () => new Array(4).fill(null).map(getRandomComment);
+const createComment = () => getRandomFilmComments()
 
 export {createFilm, createComment, createRandomId};
