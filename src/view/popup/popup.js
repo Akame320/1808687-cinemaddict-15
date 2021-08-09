@@ -1,6 +1,5 @@
 import PopupComment from './comment';
 import {createElement} from "../../utils/utils";
-import {closePopup} from "../../presenter/popup/popup";
 
 const createFilmDetailsRow = (title, text) => (
   `<tr class="film-details__row">
@@ -105,7 +104,7 @@ const createPopupTemplate = (film, comments) => (
   </section>`
 );
 
-export default class Popup {
+export default class FilmDetailsPopup {
   constructor(film, comments) {
     this._element = null;
     this._film = film;
@@ -124,6 +123,10 @@ export default class Popup {
     }
 
     return this._element;
+  }
+
+  closePopupListener(closePopup) {
+    this.getElement().addEventListener('click', () => closePopup());
   }
 
   removeElement() {

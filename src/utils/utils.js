@@ -10,8 +10,8 @@ const getRandomInt = (minNumber, maxNumber) => getRandomFloat(minNumber, maxNumb
 const renderPosition = {
   AFTER_BEGIN: 'afterbegin',
   BEFORE_END: 'beforeend',
-  AFTER: 'after'
-}
+  AFTER: 'after',
+};
 
 const render = (container, element, position = 'beforeend') => {
   switch (position) {

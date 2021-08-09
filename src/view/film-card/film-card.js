@@ -1,5 +1,4 @@
 import {createElement} from "../../utils/utils";
-import {openPopup} from "../../presenter/film-card/film-card";
 
 const MAX_CHARS_DESCRIPTION = 140;
 const MAX_CHARS_FOR_TRUNCATE = 139;
@@ -46,6 +45,10 @@ export default class FilmCard {
     }
 
     return this._element;
+  }
+
+  openPopupListener(openPopup) {
+    this.getElement().addEventListener('click', openPopup);
   }
 
   removeElement() {

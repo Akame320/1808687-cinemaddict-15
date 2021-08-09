@@ -53,10 +53,10 @@ const getArrayComment = () => {
       timeUp: '2019/12/31 23:59',
       comment: getRandomElemFromArray(COMMENT_TEXTS),
     }
-  ))
+  ));
 
   return arrayComments;
-}
+};
 
 const getRandomFilmComments = () => {
   const filmComments = {
