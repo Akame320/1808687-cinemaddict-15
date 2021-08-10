@@ -1,81 +1,89 @@
-import {createMenu} from './view/menu/menu';
-import {createSort} from './view/sort/sort';
-import {createFilms} from './view/films/films';
-import {createFilmCard} from './view/film-card/film-card';
-import {createProfile} from './view/profile/profile';
-import {createFilmsCount} from './view/films-count/films-count';
-import {createComment, createFilm} from './mocks/films-data';
-import {createPopup} from './view/popup/popup';
-import {createShowMoreButtonTemplate} from './view/show-more-button/show-more-button';
+import Menu from './view/menu/menu';
+import {render, RenderPosition} from './utils/dom-utils';
+import Sort from './view/sort/sort';
+import FilmCard from './view/film-card/film-card';
+import Profile from './view/profile/profile';
+import FilmsCount from './view/films-count/films-count';
+import Container from './view/container/container';
+import FilmsList from './view/films-lists/films-list';
+import FilmsListExtra, {ExtraLists} from './view/films-lists/films-list-extra';
+import ShowMoreButton from './view/show-more-button/show-more-button';
+import {importFilms, importComments} from './model/film-card/film-card';
+import FilmDetailsPopup from './view/popup/film-details-popup';
 
-const FILMS_COUNT = 13;
-const FILMS_INITIAL_APP_SHOW = 5;
-const COUNT_FILMS_IN_ROW = 5;
-const COMMENTS_COUNT = 5;
+const FILMS_BATCH_COUNT = 5;
+let showFilmsCard = 0;
 
-const headerContainer = document.querySelector('header');
-const bodyContainer = document.querySelector('.main');
-const footerContainer = document.querySelector('footer');
+const appHeader = document.querySelector('header');
+const appMain = document.querySelector('main');
+const appBody = document.querySelector('body');
+const appFooter = document.querySelector('footer');
 
-let showsFilmsCardInMainList = FILMS_INITIAL_APP_SHOW;
+const films = importFilms.slice();
+const comments = importComments.slice();
 
-const render = (container, domElement, place = 'beforeend') => {
-  container.insertAdjacentHTML(place, domElement);
-};
+render(appHeader, new Profile().getElement());
 
-render(headerContainer, createProfile());
+const container = new Container().getElement();
 
-render(bodyContainer, createMenu());
-render(bodyContainer, createSort());
-render(bodyContainer, createFilms());
+render(appMain, new Menu().getElement());
+render(appMain, new Sort().getElement());
+render(appMain, container);
+render(container, new FilmsList().getElement());
 
-const mainFilmsList = bodyContainer.querySelector('#mainFilmList');
-const topRateFilmsList = bodyContainer.querySelector('#topRatesList');
-const mostCommentsFilmsList = bodyContainer.querySelector('#mostCommentsList');
+const topRatedList = new FilmsListExtra(ExtraLists.TOP_RATED);
+const mostCommentList = new FilmsListExtra(ExtraLists.MOST_COMMENTED);
 
-const films = new Array(FILMS_COUNT).fill(null).map(createFilm);
-const comments = new Array(COMMENTS_COUNT).fill(null).map(createComment);
+render(container, topRatedList.getElement());
+render(container, mostCommentList.getElement());
 
-for (let i = 0; i < FILMS_INITIAL_APP_SHOW; i++){
-  render(mainFilmsList, createFilmCard(films[i]));
-}
+const topRateFilms = films.slice().sort((first, second) => second.rate - first.rate).slice(0, 2);
+const topMostComments = films.slice().sort((first, second) => second.comments - first.comments).slice(0, 2);
 
+topRatedList.setFilmsCard(topRateFilms);
+mostCommentList.setFilmsCard(topMostComments);
 
-render(mainFilmsList, createShowMoreButtonTemplate(), 'afterend');
+const mainFilmsList = appMain.querySelector('#mainFilmList');
 
-const showMoreFilmsCard = () => {
-  if(showsFilmsCardInMainList !== films.length){
-    let i = showsFilmsCardInMainList;
+render(mainFilmsList, new ShowMoreButton().getElement(), RenderPosition.AFTER);
 
-    while(showsFilmsCardInMainList < showsFilmsCardInMainList + COUNT_FILMS_IN_ROW && films[i]){
-      render(mainFilmsList, createFilmCard(films[i]));
-      i++;
+const showDetailsPopup = (evt, film) => {
+
+  const isClickPoster = evt.target.matches('.film-card__poster');
+  const isClickTitle = evt.target.matches('.film-card__title');
+  const isClickCountComments = evt.target.matches('.film-card__comments');
+
+  if (isClickPoster || isClickTitle || isClickCountComments) {
+    let filmComments = [];
+
+    for (let i = 0; i < comments.length; i++) {
+      if (film.id === comments[i].id) {
+        filmComments = comments[i];
+      }
     }
 
-    showsFilmsCardInMainList += COUNT_FILMS_IN_ROW;
+    appBody.classList.add('hide-overflow');
+
+    const filmDetailsPopup = new FilmDetailsPopup(film, filmComments);
+    filmDetailsPopup.initClickClose();
+    render(appFooter, filmDetailsPopup.getElement(), RenderPosition.AFTER);
   }
 };
 
-document.querySelector('.films-list__show-more').addEventListener('click', showMoreFilmsCard);
+const renderCardInMainList = () => {
+  const renderFilms = films.slice(showFilmsCard, showFilmsCard + FILMS_BATCH_COUNT);
 
+  for (const film of renderFilms) {
+    const filmCard = new FilmCard(film);
+    filmCard.setClickHandler(showDetailsPopup);
+    render(mainFilmsList, filmCard.getElement());
+  }
 
-const compareByRating = (first, second) => second.rate - first.rate;
-const compareByComments = (first, second) => second.comments - first.comments;
+  showFilmsCard += FILMS_BATCH_COUNT;
+};
 
+renderCardInMainList();
 
-const topRateFilms = films.slice().sort(compareByRating).slice(0, 2);
-const topMostComments = films.slice().sort(compareByComments).slice(0, 2);
+document.querySelector('.films-list__show-more').addEventListener('click', renderCardInMainList);
 
-for (const film of topRateFilms){
-  render(topRateFilmsList, createFilmCard(film));
-}
-for (const film of topMostComments){
-  render(mostCommentsFilmsList, createFilmCard(film));
-}
-
-
-render(footerContainer, createPopup(films[0], comments[0]));
-
-render(footerContainer, createFilmsCount);
-
-
+render(appFooter, new FilmsCount().getElement());

@@ -7,4 +7,5 @@ const getRandomFloat = (minNumber, maxNumber, precision = -1) => {
 
 const getRandomInt = (minNumber, maxNumber) => getRandomFloat(minNumber, maxNumber, 0);
 
+
 export {getRandomFloat, getRandomInt};

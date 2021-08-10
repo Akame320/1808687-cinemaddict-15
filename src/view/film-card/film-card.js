@@ -1,3 +1,5 @@
+import {createElement} from '../../utils/dom-utils';
+
 const MAX_CHARS_DESCRIPTION = 140;
 const MAX_CHARS_FOR_TRUNCATE = 139;
 
@@ -6,7 +8,7 @@ const truncateDescription = (description) => {
   return outDescription >= MAX_CHARS_FOR_TRUNCATE ? outDescription : `${outDescription.substr(0, MAX_CHARS_DESCRIPTION - 1)} &hellip;`;
 };
 
-export const createFilmCard = (film) => (
+const createFilmCardTemplate = (film) => (
   `<article class="film-card">
     <h3 class="film-card__title">${film.title}</h3>
     <p class="film-card__rating">${film.rate}</p>
@@ -25,3 +27,30 @@ export const createFilmCard = (film) => (
     </div>
   </article>`
 );
+
+export default class FilmCard {
+  constructor(film) {
+    this._element = null;
+    this._film = film;
+  }
+
+  getTemplate() {
+    return createFilmCardTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  setClickHandler(clickHandler) {
+    this.getElement().addEventListener('click', (evt) => clickHandler(evt, this._film));
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
