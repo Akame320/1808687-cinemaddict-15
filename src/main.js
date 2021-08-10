@@ -9,7 +9,7 @@ import FilmsList from './view/films-lists/films-list';
 import FilmsListExtra, {ExtraLists} from './view/films-lists/films-list-extra';
 import ShowMoreButton from './view/show-more-button/show-more-button';
 import {importFilms, importComments} from './model/film-card/film-card';
-import Popup from './view/popup/popup';
+import FilmDetailsPopup from './view/popup/film-details-popup';
 
 const FILMS_BATCH_COUNT = 5;
 let showFilmsCard = 0;
@@ -64,9 +64,9 @@ const showDetailsPopup = (evt, film) => {
 
     appBody.classList.add('hide-overflow');
 
-    const popup = new Popup(film, filmComments);
-    popup.initClickClose();
-    render(appFooter, popup.getElement(), RenderPosition.AFTER);
+    const filmDetailsPopup = new FilmDetailsPopup(film, filmComments);
+    filmDetailsPopup.initClickClose();
+    render(appFooter, filmDetailsPopup.getElement(), RenderPosition.AFTER);
   }
 };
 
