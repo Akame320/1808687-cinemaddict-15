@@ -1,5 +1,7 @@
 import PopupComment from './comment';
-import {createElement} from "../../utils/utils";
+import {createElement} from '../../utils/dom-utils';
+
+const appBody = document.querySelector('body');
 
 const createFilmDetailsRow = (title, text) => (
   `<tr class="film-details__row">
@@ -66,7 +68,7 @@ const createPopupTemplate = (film, comments) => (
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments}</span></h3>
 
         <ul class="film-details__comments-list">
-            ${comments.map((comment) => new PopupComment(comment).getTemplate())}
+            ${comments.comments.map((comment) => new PopupComment(comment).getTemplate())}
         </ul>
 
         <div class="film-details__new-comment">
@@ -109,8 +111,6 @@ export default class FilmDetailsPopup {
     this._element = null;
     this._film = film;
     this._comments = comments;
-
-    this.getElement().querySelector('.film-details__close').addEventListener('click', closePopup)
   }
 
   getTemplate() {
@@ -125,8 +125,11 @@ export default class FilmDetailsPopup {
     return this._element;
   }
 
-  closePopupListener(closePopup) {
-    this.getElement().addEventListener('click', () => closePopup());
+  initClickClose() {
+    this.getElement().querySelector('.film-details__close').addEventListener('click', () => {
+      this.getElement().remove();
+      appBody.classList.remove('hide-overflow');
+    });
   }
 
   removeElement() {

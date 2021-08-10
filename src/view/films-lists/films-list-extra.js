@@ -1,9 +1,15 @@
-import {createElement} from "../../utils/utils";
+import {createElement} from '../../utils/dom-utils';
+import FilmCard from '../film-card/film-card';
 
-export const createFilmsListMostRates = (list) => (
+export const ExtraLists = {
+  TOP_RATED: 'Top rated',
+  MOST_COMMENTED: 'Most commented',
+};
+
+const createFilmsListMostRates = (list) => (
   `<section class='films-list films-list--extra'>
-      <h2 class="films-list__title">${list.title}</h2>
-      <div class='films-list__container' id='${list.id}'></div>
+      <h2 class="films-list__title">${list}</h2>
+      <div class='films-list__container'></div>
     </section>`
 );
 
@@ -23,6 +29,13 @@ export default class FilmsListExtra {
     }
 
     return this._element;
+  }
+
+  setFilmsCard(films) {
+    for (const film of films){
+      const filmCard = new FilmCard(film).getElement();
+      this.getElement().querySelector('.films-list__container').append(filmCard);
+    }
   }
 
   removeElement() {

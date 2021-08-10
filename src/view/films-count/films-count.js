@@ -1,18 +1,19 @@
-import {createElement} from "../../utils/utils";
+import {createElement} from '../../utils/dom-utils';
 
-const createFilmsCountTemplate = () => (
+const createFilmsCountTemplate = (filmsCount) => (
   `<section class="footer__statistics">
-    <p>130 291 movies inside</p>
+    <p>${filmsCount} movies inside</p>
   </section>`
 );
 
 export default class FilmsCount {
-  constructor(film) {
+  constructor(filmsCount) {
     this._element = null;
+    this._filmsCount = filmsCount;
   }
 
   getTemplate() {
-    return createFilmsCountTemplate();
+    return createFilmsCountTemplate(this._filmsCount);
   }
 
   getElement() {

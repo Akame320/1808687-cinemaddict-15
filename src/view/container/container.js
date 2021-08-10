@@ -1,8 +1,6 @@
-import {createElement} from "../../utils/utils";
+import {createElement} from '../../utils/dom-utils';
 
-const createFilmsTemplate = () => (
-  `<section class='films'></section>`
-);
+const createFilmsTemplate = () => '<section class="films"></section>';
 
 export default class Container {
   constructor() {

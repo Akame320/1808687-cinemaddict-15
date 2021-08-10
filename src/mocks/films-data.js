@@ -61,13 +61,13 @@ const getArrayComment = () => {
 const getRandomFilmComments = () => {
   const filmComments = {
     id: 0,
-    comments: getArrayComment()
+    comments: getArrayComment(),
   };
 
   return filmComments;
 };
 
 
-const createComment = () => getRandomFilmComments()
+const createComment = () => getRandomFilmComments();
 
 export {createFilm, createComment, createRandomId};

@@ -1,4 +1,4 @@
-import {createElement} from "../../utils/utils";
+import {createElement} from '../../utils/dom-utils';
 
 const createFilmsListTemplate = () => (
   `<section class='films-list'>
@@ -8,7 +8,7 @@ const createFilmsListTemplate = () => (
 );
 
 export default class FilmsList {
-  constructor(film) {
+  constructor() {
     this._element = null;
   }
 

@@ -1,4 +1,4 @@
-import {createElement} from "../../utils/utils";
+import {createElement} from '../../utils/dom-utils';
 
 const MAX_CHARS_DESCRIPTION = 140;
 const MAX_CHARS_FOR_TRUNCATE = 139;
@@ -41,14 +41,13 @@ export default class FilmCard {
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
-      this._element.addEventListener('click', (evt) => openPopup(this._film, evt));
     }
 
     return this._element;
   }
 
-  openPopupListener(openPopup) {
-    this.getElement().addEventListener('click', openPopup);
+  setClickHandler(clickHandler) {
+    this.getElement().addEventListener('click', (evt) => clickHandler(evt, this._film));
   }
 
   removeElement() {

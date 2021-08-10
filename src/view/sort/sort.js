@@ -1,4 +1,4 @@
-import {createElement} from "../../utils/utils";
+import {createElement} from '../../utils/dom-utils';
 
 const createSort = () => (
   `<ul class="sort">

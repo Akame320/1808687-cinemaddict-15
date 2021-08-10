@@ -1,58 +1,72 @@
 import Menu from './view/menu/menu';
-import {render, renderPosition, RenderContainers} from './utils/utils';
+import {render, RenderPosition} from './utils/dom-utils';
 import Sort from './view/sort/sort';
 import FilmCard from './view/film-card/film-card';
 import Profile from './view/profile/profile';
 import FilmsCount from './view/films-count/films-count';
 import Container from './view/container/container';
 import FilmsList from './view/films-lists/films-list';
-import FilmsListExtra from './view/films-lists/films-list-extra';
+import FilmsListExtra, {ExtraLists} from './view/films-lists/films-list-extra';
 import ShowMoreButton from './view/show-more-button/show-more-button';
 import {importFilms, importComments} from './model/film-card/film-card';
-import Popup from "./view/popup/popup";
+import Popup from './view/popup/popup';
 
 const FILMS_BATCH_COUNT = 5;
 let showFilmsCard = 0;
 
-const TOP_RATES_LISTS = {
-  title: 'Top rated',
-  id: 'topRatesList',
-};
-
-const MOST_COMMENTS_LISTS = {
-  title: 'Most commented',
-  id: 'mostCommentsList',
-};
+const appHeader = document.querySelector('header');
+const appMain = document.querySelector('main');
+const appBody = document.querySelector('body');
+const appFooter = document.querySelector('footer');
 
 const films = importFilms.slice();
 const comments = importComments.slice();
 
-render(RenderContainers.HEADER, new Profile().getElement());
+render(appHeader, new Profile().getElement());
 
 const container = new Container().getElement();
 
-render(RenderContainers.BODY, new Menu().getElement());
-render(RenderContainers.BODY, new Sort().getElement());
-render(RenderContainers.BODY, container);
+render(appMain, new Menu().getElement());
+render(appMain, new Sort().getElement());
+render(appMain, container);
 render(container, new FilmsList().getElement());
-render(container, new FilmsListExtra(TOP_RATES_LISTS).getElement());
-render(container, new FilmsListExtra(MOST_COMMENTS_LISTS).getElement());
 
-const mainFilmsList = RenderContainers.BODY.querySelector('#mainFilmList');
-const topRateFilmsList = RenderContainers.BODY.querySelector('#topRatesList');
-const mostCommentsFilmsList = RenderContainers.BODY.querySelector('#mostCommentsList');
+const topRatedList = new FilmsListExtra(ExtraLists.TOP_RATED);
+const mostCommentList = new FilmsListExtra(ExtraLists.MOST_COMMENTED);
 
-render(mainFilmsList, new ShowMoreButton().getElement(), renderPosition.AFTER);
+render(container, topRatedList.getElement());
+render(container, mostCommentList.getElement());
 
-const openDetailsPopup = (evt) => {
+const topRateFilms = films.slice().sort((first, second) => second.rate - first.rate).slice(0, 2);
+const topMostComments = films.slice().sort((first, second) => second.comments - first.comments).slice(0, 2);
+
+topRatedList.setFilmsCard(topRateFilms);
+mostCommentList.setFilmsCard(topMostComments);
+
+const mainFilmsList = appMain.querySelector('#mainFilmList');
+
+render(mainFilmsList, new ShowMoreButton().getElement(), RenderPosition.AFTER);
+
+const showDetailsPopup = (evt, film) => {
 
   const isClickPoster = evt.target.matches('.film-card__poster');
   const isClickTitle = evt.target.matches('.film-card__title');
   const isClickCountComments = evt.target.matches('.film-card__comments');
 
-  if (isClickPoster || isClickTitle || isClickCountComments){
-    const popup = new Popup(film, filmComments).getElement();
-    render(RenderContainers.FOOTER, popup, renderPosition.AFTER);
+  if (isClickPoster || isClickTitle || isClickCountComments) {
+    let filmComments = [];
+
+    for (let i = 0; i < comments.length; i++) {
+      if (film.id === comments[i].id) {
+        filmComments = comments[i];
+      }
+    }
+
+    appBody.classList.add('hide-overflow');
+
+    const popup = new Popup(film, filmComments);
+    popup.initClickClose();
+    render(appFooter, popup.getElement(), RenderPosition.AFTER);
   }
 };
 
@@ -61,7 +75,7 @@ const renderCardInMainList = () => {
 
   for (const film of renderFilms) {
     const filmCard = new FilmCard(film);
-    filmCard.openPopupListener(openDetailsPopup());
+    filmCard.setClickHandler(showDetailsPopup);
     render(mainFilmsList, filmCard.getElement());
   }
 
@@ -72,20 +86,4 @@ renderCardInMainList();
 
 document.querySelector('.films-list__show-more').addEventListener('click', renderCardInMainList);
 
-
-const compareByRating = (first, second) => second.rate - first.rate;
-const compareByComments = (first, second) => second.comments - first.comments;
-
-const topRateFilms = films.slice().sort(compareByRating).slice(0, 2);
-const topMostComments = films.slice().sort(compareByComments).slice(0, 2);
-
-for (const film of topRateFilms) {
-  render(topRateFilmsList, new FilmCard(film).getElement());
-}
-for (const film of topMostComments) {
-  render(mostCommentsFilmsList, new FilmCard(film).getElement());
-}
-
-render(RenderContainers.FOOTER, new FilmsCount().getElement());
-
-
+render(appFooter, new FilmsCount().getElement());

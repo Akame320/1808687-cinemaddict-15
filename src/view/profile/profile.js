@@ -1,4 +1,4 @@
-import {createElement} from "../../utils/utils";
+import {createElement} from '../../utils/dom-utils';
 
 export const createProfileTemplate = () => (
   `<section class="header__profile profile">
@@ -8,7 +8,7 @@ export const createProfileTemplate = () => (
 );
 
 export default class Profile {
-  constructor(film) {
+  constructor() {
     this._element = null;
   }
 

@@ -1,4 +1,4 @@
-import {createElement} from "../../utils/utils";
+import {createElement} from '../../utils/dom-utils';
 
 const createPopupCommentTemplate = (comment) => (
   `<li class="film-details__comment">
