@@ -24,9 +24,3 @@ export default class ShowMoreButton extends Abstract {
     this.getElement().addEventListener('click', this.clickHandler);
   }
 }
-
-/*
-  Задача 0 => сделать АПИ (функцию) для добавления обработчиков события;
-  Задача 1 => Переделать контекст;
-  Задача 2 => написать абстрактный обработчик который передадим в addEventListener;
-*/
