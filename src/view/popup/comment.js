@@ -17,7 +17,7 @@ const createPopupCommentTemplate = (comment) => (
 `
 );
 
-export default class PopupComment {
+export default class FilmComment {
   constructor(comment) {
     this._element = null;
     this._comment = comment;

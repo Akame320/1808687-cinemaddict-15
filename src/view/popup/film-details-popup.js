@@ -1,4 +1,4 @@
-import PopupComment from './comment';
+import FilmComment from './comment';
 import {createElement} from '../../utils/dom-utils';
 
 const appBody = document.querySelector('body');
@@ -68,7 +68,7 @@ const createPopupTemplate = (film, comments) => (
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments}</span></h3>
 
         <ul class="film-details__comments-list">
-            ${comments.comments.map((comment) => new PopupComment(comment).getTemplate())}
+            ${comments.comments.map((comment) => new FilmComment(comment).getTemplate())}
         </ul>
 
         <div class="film-details__new-comment">
