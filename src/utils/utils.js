@@ -7,5 +7,13 @@ const getRandomFloat = (minNumber, maxNumber, precision = -1) => {
 
 const getRandomInt = (minNumber, maxNumber) => getRandomFloat(minNumber, maxNumber, 0);
 
+const isEscEvent = (evt) => {
+  if (evt.key === 'Escape' || evt.key === 'Esc'){
+    return true;
+  }
 
-export {getRandomFloat, getRandomInt};
+  return false;
+};
+
+
+export {getRandomFloat, getRandomInt, isEscEvent};

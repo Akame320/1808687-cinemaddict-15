@@ -1,5 +1,6 @@
 import PopupComment from './comment';
 import {createElement} from '../../utils/dom-utils';
+import {isEscEvent} from "../../utils/utils";
 
 const appBody = document.querySelector('body');
 
@@ -126,10 +127,21 @@ export default class FilmDetailsPopup {
   }
 
   initClickClose() {
+    const closePopup = (evt) => {
+      if (isEscEvent(evt)) {
+        this.getElement().remove();
+        appBody.classList.remove('hide-overflow');
+
+        document.removeEventListener('keydown', closePopup);
+      }
+    };
+
     this.getElement().querySelector('.film-details__close').addEventListener('click', () => {
       this.getElement().remove();
       appBody.classList.remove('hide-overflow');
     });
+
+    document.addEventListener('keydown', closePopup);
   }
 
   removeElement() {
