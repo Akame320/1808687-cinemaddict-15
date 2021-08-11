@@ -1,4 +1,4 @@
-import {createElement} from '../../utils/dom-utils';
+import Abstract from '../interfaces/abstract';
 
 const createSort = () => (
   `<ul class="sort">
@@ -8,18 +8,8 @@ const createSort = () => (
   </ul>`
 );
 
-export default class Sort{
-  constructor() {
-    this._element = null;
-  }
-
+export default class Sort extends Abstract {
   getTemplate() {
     return createSort();
-  }
-
-  getElement() {
-    if (!this._element){
-      return createElement(this.getTemplate());
-    }
   }
 }

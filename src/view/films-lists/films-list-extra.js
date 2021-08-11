@@ -1,4 +1,4 @@
-import {createElement} from '../../utils/dom-utils';
+import AbstractView from '../interfaces/abstract';
 import FilmCard from '../film-card/film-card';
 
 export const ExtraLists = {
@@ -13,8 +13,10 @@ const createFilmsListMostRates = (list) => (
     </section>`
 );
 
-export default class FilmsListExtra {
+export default class FilmsListExtra extends AbstractView {
   constructor(list) {
+    super();
+
     this._element = null;
     this._list = list;
   }
@@ -23,22 +25,10 @@ export default class FilmsListExtra {
     return createFilmsListMostRates(this._list);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
   setFilmsCard(films) {
-    for (const film of films){
+    for (const film of films) {
       const filmCard = new FilmCard(film).getElement();
       this.getElement().querySelector('.films-list__container').append(filmCard);
     }
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

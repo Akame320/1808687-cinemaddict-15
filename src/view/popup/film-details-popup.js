@@ -1,4 +1,4 @@
-import FilmComment from './comment';
+import FilmComment from './film-comment';
 import {createElement} from '../../utils/dom-utils';
 
 const appBody = document.querySelector('body');
