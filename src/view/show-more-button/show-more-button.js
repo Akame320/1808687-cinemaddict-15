@@ -6,7 +6,7 @@ export default class ShowMoreButton extends Abstract {
   constructor() {
     super();
 
-    this.clickHandler = this._clickHandler.bind(this);
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
@@ -20,7 +20,6 @@ export default class ShowMoreButton extends Abstract {
 
   setCardShowListener(callback) {
     this._callback.cardShow = callback;
-
-    this.getElement().addEventListener('click', this.clickHandler);
+    this.getElement().addEventListener('click', this._clickHandler);
   }
 }

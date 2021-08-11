@@ -1,5 +1,5 @@
 import FilmComment from './film-comment';
-import {createElement} from '../../utils/dom-utils';
+import AbstractView from '../interfaces/abstract';
 
 const appBody = document.querySelector('body');
 
@@ -106,23 +106,19 @@ const createPopupTemplate = (film, comments) => (
   </section>`
 );
 
-export default class FilmDetailsPopup {
+export default class FilmDetailsPopup extends AbstractView {
   constructor(film, comments) {
-    this._element = null;
+    super();
+
     this._film = film;
     this._comments = comments;
+
+    this._clickHandler = this._clickHandler.bind(this);
   }
+
 
   getTemplate() {
     return createPopupTemplate(this._film, this._comments);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 
   initClickClose() {
@@ -132,8 +128,14 @@ export default class FilmDetailsPopup {
     });
   }
 
-  removeElement() {
-    this._element = null;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.popupShow(evt, this._film);
+  }
+
+  setPopupShowListener(callback) {
+    this._callback.popupShow = callback;
+    this.getElement().addEventListener('click', this._clickHandler);
   }
 }
 
