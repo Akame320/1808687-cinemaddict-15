@@ -129,7 +129,7 @@ export default class FilmDetailsPopup {
   initClickClose() {
     const closePopup = (evt) => {
       if (isEscEvent(evt)) {
-        this.getElement().remove();
+        this.removeElement();
         appBody.classList.remove('hide-overflow');
 
         document.removeEventListener('keydown', closePopup);
@@ -137,7 +137,7 @@ export default class FilmDetailsPopup {
     };
 
     this.getElement().querySelector('.film-details__close').addEventListener('click', () => {
-      this.getElement().remove();
+      this.removeElement();
       appBody.classList.remove('hide-overflow');
     });
 
@@ -145,6 +145,7 @@ export default class FilmDetailsPopup {
   }
 
   removeElement() {
+    this.getElement().remove();
     this._element = null;
   }
 }

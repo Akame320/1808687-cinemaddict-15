@@ -19,6 +19,8 @@ const appMain = document.querySelector('main');
 const appBody = document.querySelector('body');
 const appFooter = document.querySelector('footer');
 
+const filmDetailsPopups = [];
+
 const films = importFilms.slice();
 const comments = importComments.slice();
 
@@ -48,7 +50,6 @@ const mainFilmsList = appMain.querySelector('#mainFilmList');
 render(mainFilmsList, new ShowMoreButton().getElement(), RenderPosition.AFTER);
 
 const showDetailsPopup = (evt, film) => {
-
   const isClickPoster = evt.target.matches('.film-card__poster');
   const isClickTitle = evt.target.matches('.film-card__title');
   const isClickCountComments = evt.target.matches('.film-card__comments');
@@ -64,9 +65,15 @@ const showDetailsPopup = (evt, film) => {
 
     appBody.classList.add('hide-overflow');
 
+    for (const popup of filmDetailsPopups){
+      popup.removeElement();
+    }
+
+    filmDetailsPopups.length = 0;
+
     const filmDetailsPopup = new FilmDetailsPopup(film, filmComments);
-    filmDetailsPopup.initClickClose();
     render(appFooter, filmDetailsPopup.getElement(), RenderPosition.AFTER);
+    filmDetailsPopups.push(filmDetailsPopup);
   }
 };
 
