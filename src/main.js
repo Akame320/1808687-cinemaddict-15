@@ -87,5 +87,3 @@ showMoreButton.setCardShowListener(renderCardInMainList);
 render(mainFilmsList, showMoreButton.getElement(), RenderPosition.AFTER);
 
 render(appFooter, new FilmsCount().getElement());
-
-// console.log(new Abstract());
