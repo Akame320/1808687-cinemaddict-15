@@ -1,4 +1,4 @@
-import {createElement} from '../../utils/dom-utils';
+import AbstractView from '../interfaces/abstract';
 
 const createFilmsCountTemplate = (filmsCount) => (
   `<section class="footer__statistics">
@@ -6,25 +6,14 @@ const createFilmsCountTemplate = (filmsCount) => (
   </section>`
 );
 
-export default class FilmsCount {
+export default class FilmsCount extends AbstractView {
   constructor(filmsCount) {
-    this._element = null;
+    super();
+
     this._filmsCount = filmsCount;
   }
 
   getTemplate() {
     return createFilmsCountTemplate(this._filmsCount);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

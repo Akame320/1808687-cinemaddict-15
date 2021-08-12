@@ -1,4 +1,4 @@
-import {createElement} from '../../utils/dom-utils';
+import AbstractView from '../interfaces/abstract';
 
 const createMenu = () => (
   `<nav class="main-navigation">
@@ -12,18 +12,8 @@ const createMenu = () => (
   </nav>`
 );
 
-export default class Menu{
-  constructor() {
-    this._element = null;
-  }
-
+export default class Menu extends AbstractView {
   getTemplate() {
     return createMenu();
-  }
-
-  getElement() {
-    if (!this._element){
-      return createElement(this.getTemplate());
-    }
   }
 }

@@ -1,4 +1,4 @@
-import {createElement} from '../../utils/dom-utils';
+import AbstractView from '../interfaces/abstract';
 
 const MAX_CHARS_DESCRIPTION = 140;
 const MAX_CHARS_FOR_TRUNCATE = 139;
@@ -28,29 +28,25 @@ const createFilmCardTemplate = (film) => (
   </article>`
 );
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor(film) {
-    this._element = null;
+    super();
+
     this._film = film;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.popupShow(evt, this._film);
   }
 
-  setClickHandler(clickHandler) {
-    this.getElement().addEventListener('click', (evt) => clickHandler(evt, this._film));
-  }
-
-  removeElement() {
-    this._element = null;
+  setPopupShowListener(callback) {
+    this._callback.popupShow = callback;
+    this.getElement().addEventListener('click', this._clickHandler);
   }
 }

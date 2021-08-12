@@ -1,4 +1,4 @@
-import {createElement} from '../../utils/dom-utils';
+import AbstractView from '../interfaces/abstract';
 
 const createPopupCommentTemplate = (comment) => (
   `<li class="film-details__comment">
@@ -17,25 +17,15 @@ const createPopupCommentTemplate = (comment) => (
 `
 );
 
-export default class PopupComment {
+export default class FilmComment extends AbstractView {
   constructor(comment) {
+    super();
+
     this._element = null;
     this._comment = comment;
   }
 
   getTemplate() {
     return createPopupCommentTemplate(this._comment);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

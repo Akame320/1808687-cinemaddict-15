@@ -45,8 +45,6 @@ mostCommentList.setFilmsCard(topMostComments);
 
 const mainFilmsList = appMain.querySelector('#mainFilmList');
 
-render(mainFilmsList, new ShowMoreButton().getElement(), RenderPosition.AFTER);
-
 const showDetailsPopup = (evt, film) => {
 
   const isClickPoster = evt.target.matches('.film-card__poster');
@@ -75,7 +73,7 @@ const renderCardInMainList = () => {
 
   for (const film of renderFilms) {
     const filmCard = new FilmCard(film);
-    filmCard.setClickHandler(showDetailsPopup);
+    filmCard.setPopupShowListener(showDetailsPopup);
     render(mainFilmsList, filmCard.getElement());
   }
 
@@ -84,6 +82,8 @@ const renderCardInMainList = () => {
 
 renderCardInMainList();
 
-document.querySelector('.films-list__show-more').addEventListener('click', renderCardInMainList);
+const showMoreButton = new ShowMoreButton();
+showMoreButton.setCardShowListener(renderCardInMainList);
+render(mainFilmsList, showMoreButton.getElement(), RenderPosition.AFTER);
 
 render(appFooter, new FilmsCount().getElement());
