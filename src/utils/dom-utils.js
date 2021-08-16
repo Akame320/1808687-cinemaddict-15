@@ -1,3 +1,5 @@
+import Abstract from '../view/interfaces/abstract';
+
 const RenderPosition = {
   AFTER_BEGIN: 'afterbegin',
   BEFORE_END: 'beforeend',
@@ -5,6 +7,15 @@ const RenderPosition = {
 };
 
 const render = (container, element, position = RenderPosition.BEFORE_END) => {
+
+  if (container instanceof Abstract) {
+    container = container.getElement();
+  }
+
+  if (element instanceof Abstract) {
+    element = element.getElement();
+  }
+
   switch (position) {
     case RenderPosition.BEFORE_END:
       container.append(element);

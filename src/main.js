@@ -8,16 +8,22 @@ import Container from './view/container/container';
 import FilmsList from './view/films-lists/films-list';
 import FilmsListExtra, {ExtraLists} from './view/films-lists/films-list-extra';
 import ShowMoreButton from './view/show-more-button/show-more-button';
-import {importFilms, importComments} from './model/film-card/film-card';
 import FilmDetailsPopup from './view/popup/film-details-popup';
+import {importFilms, importComments} from './model/film-card/film-card';
 
-const FILMS_BATCH_COUNT = 5;
-let showFilmsCard = 0;
+import Movies from './presenter/movies';
 
 const appHeader = document.querySelector('header');
 const appMain = document.querySelector('main');
 const appBody = document.querySelector('body');
 const appFooter = document.querySelector('footer');
+
+const mainMovies = new Movies(appMain);
+mainMovies.start(importFilms);
+
+const FILMS_BATCH_COUNT = 5;
+let showFilmsCard = 0;
+
 
 const films = importFilms.slice();
 const comments = importComments.slice();
