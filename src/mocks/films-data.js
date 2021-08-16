@@ -24,20 +24,24 @@ const getRandomDescription = () => getRandomElemsFromArray(FILM_DESCRIPTIONS).jo
 
 const createFilm = () => {
   const film = {
-    id: 0,
-    poster: getRandomElemFromArray(FILM_POSTERS),
-    title: getRandomElemFromArray(FILM_NAMES),
-    rate: getRandomFloat(0, 10, 1),
-    release: getRandomInt(1900, 2021),
-    duration: getRandomDuration(),
-    genres: getRandomElemsFromArray(FILM_GENRE),
-    description: getRandomDescription(),
-    comments: getRandomInt(0, 5),
-    director: getRandomElemFromArray(FILM_DIRECTORS),
-    writers: getRandomElemsFromArray(FILM_WRITERS),
-    actors: getRandomElemsFromArray(FILM_ACTORS),
-    country: getRandomElemFromArray(FILM_COUNTRYS),
-    ageСategory: getRandomInt(6, 18),
+    id: createRandomId(),
+    filmInfo: {
+      title: getRandomElemFromArray(FILM_NAMES),
+      alternativeTitle: getRandomElemFromArray(FILM_NAMES),
+      totalRating: getRandomFloat(0, 10, 1),
+      ageRating: getRandomInt(6, 18),
+      poster: getRandomElemFromArray(FILM_POSTERS),
+      release: getRandomInt(1900, 2021),
+      duration: getRandomDuration(),
+      genres: getRandomElemsFromArray(FILM_GENRE),
+      description: getRandomDescription(),
+      comments: getRandomInt(0, 5),
+      director: getRandomElemFromArray(FILM_DIRECTORS),
+      writers: getRandomElemsFromArray(FILM_WRITERS),
+      actors: getRandomElemsFromArray(FILM_ACTORS),
+      country: getRandomElemFromArray(FILM_COUNTRYS),
+    },
+    comments: [],
   };
 
   return film;
@@ -45,29 +49,16 @@ const createFilm = () => {
 
 const getCommentName = () => 'John Doe';
 
-const getArrayComment = () => {
-  const arrayComments = Array(getRandomInt(0, 5)).fill(null).map(() => (
-    {
-      name: getCommentName(),
-      avatar: getRandomElemFromArray(COMMENT_AVATARS),
-      timeUp: '2019/12/31 23:59',
-      comment: getRandomElemFromArray(COMMENT_TEXTS),
-    }
-  ));
-
-  return arrayComments;
-};
-
-const getRandomFilmComments = () => {
-  const filmComments = {
-    id: 0,
-    comments: getArrayComment(),
+const createComment = () => {
+  const filmComment = {
+    id: `cmt-${createRandomId()}`,
+    author: getCommentName(),
+    emotion: getRandomElemFromArray(COMMENT_AVATARS),
+    date: '2019/12/31 23:59',
+    comment: getRandomElemFromArray(COMMENT_TEXTS),
   };
 
-  return filmComments;
+  return filmComment;
 };
-
-
-const createComment = () => getRandomFilmComments();
 
 export {createFilm, createComment, createRandomId};

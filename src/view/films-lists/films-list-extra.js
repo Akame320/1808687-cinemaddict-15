@@ -1,5 +1,5 @@
 import AbstractView from '../interfaces/abstract';
-import FilmCard from '../film-card/film-card';
+import {render} from '../../utils/dom-utils';
 
 export const ExtraLists = {
   TOP_RATED: 'Top rated',
@@ -25,10 +25,8 @@ export default class FilmsListExtra extends AbstractView {
     return createFilmsListMostRates(this._list);
   }
 
-  setFilmsCard(films) {
-    for (const film of films) {
-      const filmCard = new FilmCard(film).getElement();
-      this.getElement().querySelector('.films-list__container').append(filmCard);
-    }
+  setFilmCard(filmCard) {
+    const containerCard = this.getElement().querySelector('.films-list__container');
+    render(containerCard, filmCard);
   }
 }

@@ -36,4 +36,9 @@ const createElement = (elementTemplate) => {
   return newElement.firstChild;
 };
 
-export {render, createElement, RenderPosition};
+const appHeader = document.querySelector('header');
+const appMain = document.querySelector('main');
+const appBody = document.querySelector('body');
+const appFooter = document.querySelector('footer');
+
+export {render, createElement, RenderPosition, appHeader, appMain, appBody, appFooter};

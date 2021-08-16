@@ -3,13 +3,13 @@ import AbstractView from '../interfaces/abstract';
 const createPopupCommentTemplate = (comment) => (
   `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
-            <img src="${comment.avatar}" width="55" height="55" alt="emoji-sleeping">
+            <img src="${comment.emotion}" width="55" height="55" alt="emoji-sleeping">
         </span>
       <div>
         <p class="film-details__comment-text">${comment.comment}</p>
         <p class="film-details__comment-info">
-          <span class="film-details__comment-author">${comment.name}</span>
-          <span class="film-details__comment-day">${comment.timeUp}</span>
+          <span class="film-details__comment-author">${comment.author}</span>
+          <span class="film-details__comment-day">${comment.date}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>

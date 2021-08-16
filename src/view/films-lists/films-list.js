@@ -1,5 +1,5 @@
 import AbstractView from '../interfaces/abstract';
-import FilmCard from '../film-card/film-card';
+import {render} from '../../utils/dom-utils';
 
 const createFilmsListTemplate = () => (
   `<section class='films-list'>
@@ -13,10 +13,8 @@ export default class FilmsList extends AbstractView {
     return createFilmsListTemplate();
   }
 
-  setFilmsCard(films) {
-    for (const film of films) {
-      const filmCard = new FilmCard(film).getElement();
-      this.getElement().querySelector('.films-list__container').append(filmCard);
-    }
+  setFilmCard(filmCard) {
+    const containerCard = this.getElement().querySelector('.films-list__container');
+    render(containerCard, filmCard);
   }
 }

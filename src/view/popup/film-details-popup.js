@@ -23,35 +23,35 @@ const createPopupTemplate = (film, comments) => (
 
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="${film.poster}" alt="">
+              <img class="film-details__poster-img" src="${film.filmInfo.poster}" alt="">
 
-              <p class="film-details__age">${film.ageСategory}+</p>
+              <p class="film-details__age">${film.filmInfo.ageRating}+</p>
             </div>
 
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
-                  <h3 class="film-details__title">${film.title}</h3>
-                  <p class="film-details__title-original">Original: ${film.title}</p>
+                  <h3 class="film-details__title">${film.filmInfo.title}</h3>
+                  <p class="film-details__title-original">Original: ${film.filmInfo.alternativeTitle}</p>
                 </div>
 
                 <div class="film-details__rating">
-                  <p class="film-details__total-rating">${film.rate}</p>
+                  <p class="film-details__total-rating">${film.filmInfo.totalRating}</p>
                 </div>
               </div>
 
               <table class="film-details__table">
-                ${createFilmDetailsRow('Director', film.director)}
-                ${createFilmDetailsRow('Writers', film.writers)}
-                ${createFilmDetailsRow('Actors', film.actors)}
+                ${createFilmDetailsRow('Director', film.filmInfo.director)}
+                ${createFilmDetailsRow('Writers', film.filmInfo.writers)}
+                ${createFilmDetailsRow('Actors', film.filmInfo.actors)}
                 ${createFilmDetailsRow('Release Date', '30 March 1945')}
-                ${createFilmDetailsRow('Runtime', film.duration)}
-                ${createFilmDetailsRow('Country', film.country)}
-                ${createFilmDetailsRow('Genres', film.genres.map((category) => `<span class="film-details__genre">${category}</span>`).join(''))}
+                ${createFilmDetailsRow('Runtime', film.filmInfo.duration)}
+                ${createFilmDetailsRow('Country', film.filmInfo.country)}
+                ${createFilmDetailsRow('Genres', film.filmInfo.genres.map((category) => `<span class="film-details__genre">${category}</span>`).join(''))}
               </table>
 
               <p class="film-details__film-description">
-                ${film.description}
+                ${film.filmInfo.description}
               </p>
             </div>
           </div>
@@ -65,10 +65,10 @@ const createPopupTemplate = (film, comments) => (
 
         <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments}</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments.length}</span></h3>
 
         <ul class="film-details__comments-list">
-            ${comments.comments.map((comment) => new FilmComment(comment).getTemplate())}
+            ${comments.map((comment) => new FilmComment(comment).getTemplate())}
         </ul>
 
         <div class="film-details__new-comment">
@@ -111,7 +111,14 @@ export default class FilmDetailsPopup extends AbstractView {
     super();
 
     this._film = film;
-    this._comments = comments;
+    this._comments = [];
+
+    for (const filmCommentID of this._film.comments){
+      const newComment = comments.find((comment) => comment.id === filmCommentID.id);
+      if (newComment){
+        this._comments.push(newComment);
+      }
+    }
 
     this._clickHandler = this._clickHandler.bind(this);
   }
